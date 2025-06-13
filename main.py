@@ -43,6 +43,10 @@ def main():
     # Drawing Objects
     create_boundaries(space)
     creating_environment(space, wood_segment)
+    create_ball(space, (110,80), primary_ball["mass"], primary_ball["radius"], primary_ball["friction"], primary_ball["elasticity"])
+    create_ball(space, (80,80), primary_ball["mass"], primary_ball["radius"], primary_ball["friction"], primary_ball["elasticity"])
+    create_ball(space, (50,80), primary_ball["mass"], primary_ball["radius"], primary_ball["friction"], primary_ball["elasticity"])
+    create_ball(space, (15,80), primary_ball["mass"], primary_ball["radius"], primary_ball["friction"], primary_ball["elasticity"])
     
     # Pymunk draw options
     draw_options = pymunk.pygame_util.DrawOptions(screen)
@@ -53,6 +57,7 @@ def main():
     text_rect = text_surface.get_rect(center=(SCREEN_WIDTH // 2, 20))
 
     running = True
+
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -61,7 +66,7 @@ def main():
                 if event.key == pygame.K_ESCAPE:
                     running = False
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1:  # 1 is for left mouse button
+                if event.button == 1:
                     print(f"Left mouse click at: {event.pos}")
                 if event.button == 3:
                     create_ball(space, event.pos, primary_ball["mass"], primary_ball["radius"], primary_ball["friction"], primary_ball["elasticity"])
@@ -87,8 +92,6 @@ def main():
 
         # Cap the frame rate
         clock.tick(FPS)
-
-        
 
     pygame.quit()
 

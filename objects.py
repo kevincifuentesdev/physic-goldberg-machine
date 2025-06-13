@@ -55,7 +55,7 @@ def create_segment(space: pymunk.Space, initial: Tuple[float, float], final: Tup
 
     space.add(segment_body, segment_shape)
 
-#Hole
+# Hole
 def load_holes_from_json(path: str) -> list[Dict[str, Any]]:
     with open(path, "r") as f:
         holes_data = json.load(f)
@@ -67,21 +67,22 @@ def create_all_holes(space: pymunk.Space, holes_data: list[Dict[str, Any]]):
 
 def create_hole_segment(space: pymunk.Space, object_hole: Dict[str, Any]):
     #Left wall
-    create_segment(space, initial= object_hole["left_wall"][0], final= object_hole["left_wall"][1], radius=object_hole["radius"], friction= object_hole["friction"], elasticity= object_hole["elasticity"], color= object_hole["color"])
+    create_segment(space, object_hole["left_wall"][0], object_hole["left_wall"][1], object_hole["radius"], object_hole["friction"], object_hole["elasticity"], object_hole["color"])
     
     # Right wall
-    create_segment(space, initial=object_hole["right_wall"][0], final=object_hole["right_wall"][1], radius=object_hole["radius"], friction=object_hole["friction"], elasticity=object_hole["elasticity"], color=object_hole["color"])
+    create_segment(space, object_hole["right_wall"][0], object_hole["right_wall"][1], object_hole["radius"], object_hole["friction"], object_hole["elasticity"], object_hole["color"])
     
     # Bottom
-    create_segment(space, initial=object_hole["bottom"][0], final=object_hole["bottom"][1], radius=object_hole["radius"], friction=object_hole["friction"], elasticity=object_hole["elasticity"], color=object_hole["color"])
+    create_segment(space, object_hole["bottom"][0], object_hole["bottom"][1], object_hole["radius"], object_hole["friction"], object_hole["elasticity"], object_hole["color"])
 
 def creating_environment(space: pymunk.Space, object_type: Dict[str, Any]):
     create_segment(space, (7, 92), (221, 100), object_type["radius"], object_type["friction"], object_type["elasticity"], object_type["color"])
-    create_segment(space, (257, 105), (497, 122), object_type["radius"], object_type["friction"], object_type["elasticity"], object_type["color"])
+    create_segment(space, (255, 105), (497, 122), object_type["radius"], object_type["friction"], object_type["elasticity"], object_type["color"])
     create_segment(space, (529, 134), (1116, 155), object_type["radius"], object_type["friction"], object_type["elasticity"], object_type["color"])
     create_segment(space, (1173, 186), (941, 203), object_type["radius"], object_type["friction"], object_type["elasticity"], object_type["color"])
     create_segment(space, (1176, 186), (1184, 164), object_type["radius"], object_type["friction"], object_type["elasticity"], object_type["color"])
     create_segment(space, (905, 215), (133, 259), object_type["radius"], object_type["friction"], object_type["elasticity"], object_type["color"])
+
     # Load and create all holes from holes.json
     holes_data = load_holes_from_json("holes.json")
     create_all_holes(space, holes_data)
