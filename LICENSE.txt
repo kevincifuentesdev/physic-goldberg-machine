@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2024 Kevin Sebastián Cifuentes López, Mariana Lopera Correa, Emanuel García Ríos
+Copyright (c) 2025 Kevin Sebastián Cifuentes López, Mariana Lopera Correa, Emanuel García Ríos
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
