@@ -40,6 +40,10 @@ def main():
     space.gravity = GRAVITY
     space.damping = DAMPING
     
+    # Drawing Objects
+    create_boundaries(space)
+    creating_environment(space, wood_segment)
+    
     # Pymunk draw options
     draw_options = pymunk.pygame_util.DrawOptions(screen)
 
@@ -84,9 +88,7 @@ def main():
         # Cap the frame rate
         clock.tick(FPS)
 
-        # Drawing Objects
-        create_boundaries(space)
-        creating_environment(space, wood_segment)
+        
 
     pygame.quit()
 
