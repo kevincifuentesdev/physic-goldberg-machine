@@ -175,15 +175,18 @@ def creating_environment(space: pymunk.Space, object_type: Dict[str, Any]):
 
     create_segment(space, (5, 290), (190, 400), object_type["radius"], object_type["friction"], object_type["elasticity"], object_type["color"])
 
-    create_segment(space, (5, 450), (609, 450), object_type["radius"], object_type["friction"], object_type["elasticity"], object_type["color"])
-    create_segment(space, (610, 450), (610, 420), object_type["radius"], object_type["friction"], object_type["elasticity"], object_type["color"])
-
+    create_segment(space, (5, 450), (364, 450), object_type["radius"], object_type["friction"], object_type["elasticity"], object_type["color"])
     create_segment(space, (393, 323), (799, 323), object_type["radius"], object_type["friction"], object_type["elasticity"], object_type["color"])
     
+    #Para la catapulta
+    
+    create_segment(space, (761, 505), (743, 503), object_type["radius"], object_type["friction"], object_type["elasticity"], object_type["color"])
+    create_segment(space, (743, 494), (754, 430), object_type["radius"], object_type["friction"], object_type["elasticity"], object_type["color"])
+    create_segment(space, (756, 427), (781, 393), object_type["radius"], object_type["friction"], object_type["elasticity"], object_type["color"])
 
     # Load and create all holes from holes.json
     holes_data = load_holes_from_json("holes.json")
     create_all_holes(space, holes_data)
 
-    create_lever(space, (822, 440), (962, 450))
+    create_lever(space, (753, 493), (866, 493))
 

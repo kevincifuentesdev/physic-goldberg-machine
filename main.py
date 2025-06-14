@@ -22,6 +22,13 @@ primary_ball = {
     "radius": 11.5
 }
 
+catapult_ball = {
+    "friction": 0.4,
+    "elasticity": 0.75,
+    "mass": 7,
+    "radius": 12
+}
+
 wood_object = {
     "friction": 0.4,
     "elasticity": 0.5,
@@ -126,6 +133,10 @@ def main():
     create_ball(space, (80,80), primary_ball["mass"], primary_ball["radius"], primary_ball["friction"], primary_ball["elasticity"])
     create_ball(space, (50,80), primary_ball["mass"], primary_ball["radius"], primary_ball["friction"], primary_ball["elasticity"])
     create_ball(space, (15,80), primary_ball["mass"], primary_ball["radius"], primary_ball["friction"], primary_ball["elasticity"])
+    
+    #Activated ball
+    create_ball(space, (792, 307), 15, 6, 0.4, 0.75)
+    create_ball(space, (757, 427), catapult_ball["mass"], catapult_ball["radius"], catapult_ball["friction"], catapult_ball["elasticity"])
 
     draw_fixed_stick(space, red_stick, (330, 395))
     create_dominoes(space)
