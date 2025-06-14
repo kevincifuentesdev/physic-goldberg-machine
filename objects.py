@@ -149,6 +149,22 @@ def create_domino(
     space.add(body, shape)
     return body, shape
 
+def create_pendulum(space: pymunk.Space, pendulum_properties: Dict[str, Any]):
+    anchor_body = pymunk.Body(body_type=pymunk.Body.STATIC)
+    anchor_body.position = pendulum_properties["anchor_pos"]
+
+
+    dynamic_body = pymunk.Body()
+    dynamic_body.position = pendulum_properties["pendulum_mass"]["pos"]
+
+    rope = pymunk.Segment(dynamic_body, pendulum_properties["rope"]["pos"][0], pendulum_properties["rope"]["pos"][1], pendulum_properties["rope"]["radius"])
+    pendulum_mass = pymunk.Circle(dynamic_body, pendulum_properties["pendulum_mass"]["radius"])
+    pendulum_mass.mass = pendulum_properties["pendulum_mass"]["mass"]
+
+    joint = pymunk.PinJoint(anchor_body, dynamic_body, pendulum_properties["rope"]["pos"][0], pendulum_properties["rope"]["pos"][1])
+
+    space.add(anchor_body, dynamic_body, rope, pendulum_mass, joint)
+
 def creating_environment(space: pymunk.Space, object_type: Dict[str, Any]):
     create_segment(space, (7, 92), (221, 100), object_type["radius"], object_type["friction"], object_type["elasticity"], object_type["color"])
     create_segment(space, (255, 105), (497, 122), object_type["radius"], object_type["friction"], object_type["elasticity"], object_type["color"])
@@ -157,7 +173,7 @@ def creating_environment(space: pymunk.Space, object_type: Dict[str, Any]):
     create_segment(space, (1176, 186), (1184, 164), object_type["radius"], object_type["friction"], object_type["elasticity"], object_type["color"])
     create_segment(space, (905, 215), (133, 259), object_type["radius"], object_type["friction"], object_type["elasticity"], object_type["color"])
 
-    create_segment(space, (5, 309), (190, 400), object_type["radius"], object_type["friction"], object_type["elasticity"], object_type["color"])
+    create_segment(space, (5, 290), (190, 400), object_type["radius"], object_type["friction"], object_type["elasticity"], object_type["color"])
 
     create_segment(space, (5, 450), (609, 450), object_type["radius"], object_type["friction"], object_type["elasticity"], object_type["color"])
     create_segment(space, (610, 450), (610, 420), object_type["radius"], object_type["friction"], object_type["elasticity"], object_type["color"])
@@ -168,4 +184,6 @@ def creating_environment(space: pymunk.Space, object_type: Dict[str, Any]):
     # Load and create all holes from holes.json
     holes_data = load_holes_from_json("holes.json")
     create_all_holes(space, holes_data)
+
+    create_lever(space, (822, 440), (962, 450))
 

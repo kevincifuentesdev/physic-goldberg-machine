@@ -1,7 +1,7 @@
 import pygame
 import pymunk
 import pymunk.pygame_util
-from objects import create_boundaries, create_ball, creating_environment, create_domino, create_stick
+from objects import create_boundaries, create_ball, creating_environment, create_domino, create_stick, create_pendulum
 from typing import Tuple, Any, Dict
 
 # Screen dimensions
@@ -18,7 +18,7 @@ DAMPING = 0.99
 primary_ball = {
     "friction": 0.4,
     "elasticity": 0.75,
-    "mass": 0.10,
+    "mass": 8,
     "radius": 11.5
 }
 
@@ -30,7 +30,7 @@ wood_object = {
 }
 
 red_stick = {
-    "mass": 0.1,
+    "mass": 5,
     "friction": 0.4,
     "elasticity": 0.5,
     "radius": 5,
@@ -46,6 +46,19 @@ blue_stick = {
     "color": (100, 100, 255, 255)
 }
 
+first_pendulum = {
+    "anchor_pos": (410, 245),
+    "pendulum_mass": {
+        "mass": 0.5,
+        "radius": 10,
+        "pos": (410, 290)
+    },
+    "rope": {
+        "pos": [(0, 0), (0, -15)],
+        "radius": 1.5
+    }
+}
+
 DOMINO_PROPERTIES = {
     "num_dominoes": 12,
     "width": 10,
@@ -54,7 +67,7 @@ DOMINO_PROPERTIES = {
     "friction": 0.4,
     "elasticity": 0.4,
     "spacing_factor": 0.4,
-    "start_x": 425
+    "start_x": 415
 }
 
 def draw_fixed_stick(space: pymunk.Space, stick_object: Dict[str, Any], pivot_pos: Tuple[float, float]):
@@ -116,6 +129,8 @@ def main():
 
     draw_fixed_stick(space, red_stick, (330, 395))
     create_dominoes(space)
+
+    create_pendulum(space, first_pendulum)
     
     # Pymunk draw options
     draw_options = pymunk.pygame_util.DrawOptions(screen)
