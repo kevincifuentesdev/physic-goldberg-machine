@@ -1,7 +1,8 @@
 import pygame
 import pymunk
 import pymunk.pygame_util
-from objects import create_boundaries, create_ball, creating_environment
+from objects import create_boundaries, create_ball, creating_environment, create_domino, create_stick
+from typing import Tuple, Any, Dict
 
 # Screen dimensions
 SCREEN_WIDTH = 1200
@@ -21,12 +22,76 @@ primary_ball = {
     "radius": 11.5
 }
 
-wood_segment = {
+wood_object = {
     "friction": 0.4,
     "elasticity": 0.5,
     "radius": 5,
     "color": (101, 67, 33, 255)
 }
+
+red_stick = {
+    "mass": 0.1,
+    "friction": 0.4,
+    "elasticity": 0.5,
+    "radius": 5,
+    "color": (200, 50, 50, 255),
+    "position": [(300, 430), (400, 290)]
+}
+
+blue_stick = {
+    "mass": 0.1,
+    "friction": 0.4,
+    "elasticity": 0.5,
+    "radius": 5,
+    "color": (100, 100, 255, 255)
+}
+
+DOMINO_PROPERTIES = {
+    "num_dominoes": 12,
+    "width": 10,
+    "height": 45,
+    "mass": 0.5,
+    "friction": 0.4,
+    "elasticity": 0.4,
+    "spacing_factor": 0.4,
+    "start_x": 425
+}
+
+def draw_fixed_stick(space: pymunk.Space, stick_object: Dict[str, Any], pivot_pos: Tuple[float, float]):
+    stick_body = create_stick(space, stick_object["position"][0], stick_object["position"][1], stick_object["mass"], stick_object["radius"], stick_object["friction"], stick_object["elasticity"], stick_object["color"])
+
+    pivot_joint = pivot_pos
+    pivot = pymunk.PivotJoint(space.static_body, stick_body, pivot_joint)
+    space.add(pivot)
+
+def create_dominoes(space: pymunk.Space) -> None:
+    """
+    Crea una fila de dominós en el espacio físico.
+
+    :param space: Espacio físico de Pymunk.
+    """
+    properties = DOMINO_PROPERTIES
+    cumulative_x = properties["start_x"]
+    last_half_width = properties["width"] / 2
+
+    for _ in range(properties["num_dominoes"]):
+        current_half_width = properties["width"] / 2
+        current_spacing = properties["height"] * properties["spacing_factor"]
+        x_pos = cumulative_x + last_half_width + current_spacing + current_half_width
+
+        create_domino(
+            x_pos,
+            316,
+            properties["width"],
+            properties["height"],
+            properties["mass"],
+            properties["friction"],
+            properties["elasticity"],
+            space,
+        )
+
+        cumulative_x = x_pos
+        last_half_width = current_half_width
 
 def main():
     # Pygame initialization
@@ -42,11 +107,15 @@ def main():
     
     # Drawing Objects
     create_boundaries(space)
-    creating_environment(space, wood_segment)
+    creating_environment(space, wood_object)
+
     create_ball(space, (110,80), primary_ball["mass"], primary_ball["radius"], primary_ball["friction"], primary_ball["elasticity"])
     create_ball(space, (80,80), primary_ball["mass"], primary_ball["radius"], primary_ball["friction"], primary_ball["elasticity"])
     create_ball(space, (50,80), primary_ball["mass"], primary_ball["radius"], primary_ball["friction"], primary_ball["elasticity"])
     create_ball(space, (15,80), primary_ball["mass"], primary_ball["radius"], primary_ball["friction"], primary_ball["elasticity"])
+
+    draw_fixed_stick(space, red_stick, (330, 395))
+    create_dominoes(space)
     
     # Pymunk draw options
     draw_options = pymunk.pygame_util.DrawOptions(screen)
